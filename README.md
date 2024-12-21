@@ -46,27 +46,63 @@ Para subir a aplicação, abra o terminal e navegue até o diretório onde está
 
 ```bash
 docker-compose up -d
-
+```
 ## 2. Para acessar o terminal do container do frontend
 
 use o comando abaixo:
 
 ```bash
 docker exec -it avaliacaogrowdev-frontend-1 bash
-
+```
 ## 3. Instalar dependências com NPM
 
 Dentro do terminal do frontend no Docker, execute o comando abaixo para instalar as dependências do projeto, incluindo o pacote jszip:
 
 ```bash
 npm install jszip
-
+```
 ## 4. Após subir a aplicação, abra seu navegador e acesse o seguinte endereço:
 
 Para subir a aplicação, abra o terminal e navegue até o diretório onde está localizado o arquivo `docker-compose.yml`. Em seguida, execute o comando abaixo para iniciar os containers da aplicação:
 
+```bash
 http://localhost:5173
+```
 
+# Acessar Terminais
 
+##  Para acessar o terminal do container do laravel
+
+use o comando abaixo:
+
+```bash
+docker exec -it avaliacaogrowdev-laravel-1 bash
+```
+
+##  Para acessar o terminal do container do mysql
+
+use o comando abaixo:
+
+```bash
+docker exec -it mysql bash
+```
+
+depois: 
+
+```bash
+mysql -u root -p
+```
+
+a senha para acessar é:
+
+```bash
+root_password
+```
+
+para acessar a DataBase: 
+
+```bash
+USE sicredi;
+```
 
 
