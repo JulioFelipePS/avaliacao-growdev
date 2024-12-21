@@ -2,8 +2,8 @@
   import { ref } from "vue";
   import axios from "axios";
   import btn from '@/components/Button.vue';
-import { useRouter } from "vue-router";
-;
+  import { useRouter } from "vue-router";
+  import JSZip from "jszip";
   
   const file = ref<File | null>(null);
   const dragging = ref(false);
@@ -20,7 +20,6 @@ import { useRouter } from "vue-router";
   const closeModal = () => {
     isModalOpen.value = false;
     file.value = null;
-
   };
   
   const triggerFileInput = () => {
@@ -50,48 +49,54 @@ import { useRouter } from "vue-router";
   };
   
   const uploadFile = async (): Promise<void> => {
-  if (!file.value) {
-    console.error("Nenhum arquivo selecionado.");
-    return;
-  }
-
-  // Cria o FormData para o envio
-  const formData = new FormData();
-  formData.append("arquivo", file.value);
-
-  uploading.value = true;
-
-  try {
-    // Valida se o arquivo é do tipo File
-    if (!(file.value instanceof File)) {
-      throw new Error("Arquivo inválido.");
+    if (!file.value) {
+      console.error("Nenhum arquivo selecionado.");
+      return;
     }
 
-    // Envia o arquivo para o backend
-    const response = await axios.post("http://localhost:8081/api/upload", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    console.log("Arquivo original:", file.value);
 
-    // Verifica a resposta do servidor
-    if (response.data.success) {
-      message.value = response.data.msg;
-      messageType.value = "alert-success";
-      router.push("/dashboard"); // Redireciona para o dashboard
-    } else {
-      message.value = response.data.msg;
+    uploading.value = true;
+
+    try {
+      if (!(file.value instanceof File)) {
+        throw new Error("Arquivo inválido.");
+      }
+      
+      const zip = new JSZip();
+      zip.file(file.value.name, file.value, { compression: "DEFLATE", compressionOptions: { level: 5 } });
+      const zipBlob = await zip.generateAsync({ type: "blob" });
+      console.log("Tamanho do ZIP gerado:", zipBlob.size);
+      console.log("Blob do arquivo ZIP gerado:", zipBlob);
+
+      const formData = new FormData();
+      formData.append("arquivo", new File([zipBlob], `${file.value.name}.zip`));
+      console.log("FormData criado:", formData);
+      
+      const response = await axios.post("http://localhost:8081/api/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      if (response.data.success) {
+        message.value = response.data.msg;
+        messageType.value = "alert-success";
+        router.push("/dashboard"); 
+      } else {
+        message.value = response.data.msg;
+        messageType.value = "alert-danger";
+      }
+    } catch (error) {
+      console.error(error);
+      message.value = "Erro ao enviar o arquivo.";
       messageType.value = "alert-danger";
+    } finally {
+      uploading.value = false;
+      file.value = null;
     }
-  } catch (error) {
-    console.error(error);
-    message.value = "Erro ao enviar o arquivo.";
-    messageType.value = "alert-danger";
-  } finally {
-    uploading.value = false;
-    file.value = null;
-  }
-};
+  };
+
 
 
 

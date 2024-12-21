@@ -8,4 +8,13 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    server: {
+        proxy: {
+            '/api': {
+                target: 'http://localhost:8081',  // Alvo do backend
+                changeOrigin: true,  // Modifica o cabeçalho "Origin"
+                rewrite: (path) => path.replace(/^\/api/, ''),  // Remove o "/api" da URL
+            },
+        },
+    },
 });

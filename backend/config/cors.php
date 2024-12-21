@@ -15,19 +15,19 @@ return [
     |
     */
 
-    'paths' => ['*'], // Permitir todas as rotas (inclui rotas web)
+    'paths' => ['*'], 
 
-    'allowed_methods' => ['*'], // Permite todos os métodos HTTP (GET, POST, etc.)
+    'allowed_methods' => ['*'], 
 
-    'allowed_origins' => ['http://localhost:5173'], // Permite apenas o Vue em desenvolvimento
+    'allowed_origins' => ['*'], 
 
     'allowed_origins_patterns' => [],
 
-    'allowed_headers' => ['*'], // Permite todos os cabeçalhos (requisitados pelo Axios, por exemplo)
+    'allowed_headers' => ['*'], 
 
     'exposed_headers' => [],
 
     'max_age' => 0,
 
-    'supports_credentials' => true, // Permite envio de cookies e CSRF
+    'supports_credentials' => true, 
 ];
