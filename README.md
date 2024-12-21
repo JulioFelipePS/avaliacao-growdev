@@ -38,4 +38,35 @@ Este projeto foi desenvolvido utilizando as seguintes tecnologias:
 - **Regex101**: Ferramenta online utilizada para testar e validar expressões regulares (regex), aplicadas no processamento e filtragem de dados.
 - **Chart.js**: Biblioteca JavaScript utilizada para a criação de gráficos interativos, visualizando as métricas e informações geradas a partir dos dados processados.
 
+# Passo a Passo para Subir a Aplicação com Docker
+
+## 1. Subir a aplicação com Docker Compose
+
+Para subir a aplicação, abra o terminal e navegue até o diretório onde está localizado o arquivo `docker-compose.yml`. Em seguida, execute o comando abaixo para iniciar os containers da aplicação:
+
+```bash
+docker-compose up -d
+
+## 2. Para acessar o terminal do container do frontend
+
+use o comando abaixo:
+
+```bash
+docker exec -it avaliacaogrowdev-frontend-1 bash
+
+## 3. Instalar dependências com NPM
+
+Dentro do terminal do frontend no Docker, execute o comando abaixo para instalar as dependências do projeto, incluindo o pacote jszip:
+
+```bash
+npm install jszip
+
+## 4. Após subir a aplicação, abra seu navegador e acesse o seguinte endereço:
+
+Para subir a aplicação, abra o terminal e navegue até o diretório onde está localizado o arquivo `docker-compose.yml`. Em seguida, execute o comando abaixo para iniciar os containers da aplicação:
+
+http://localhost:5173
+
+
+
 
